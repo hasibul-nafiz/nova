@@ -5,6 +5,9 @@ import { Pill } from '@/components/ui/Pill';
 import { colors, fonts, radius } from '@/theme';
 import type { Buddy } from '@/types/buddy';
 
+const DEFAULT_BORDER = 1;
+const SELECTED_BORDER = 3;
+
 type Props = {
   buddy: Buddy;
   width: number;
@@ -15,7 +18,9 @@ type Props = {
 export function BuddyCard({ buddy, width, selected = false, onPress }: Props) {
   const nameSize = Math.round(Math.min(Math.max(width * 0.085, 14), 26));
   const pillSize = Math.round(Math.min(Math.max(width * 0.06, 11), 20));
-  const padding = Math.round(Math.min(Math.max(width * 0.06, 8), 20));
+  const basePadding = Math.round(Math.min(Math.max(width * 0.06, 8), 20));
+  // The selected border is thicker; shave the padding so the content doesn't shift.
+  const padding = selected ? basePadding - (SELECTED_BORDER - DEFAULT_BORDER) : basePadding;
 
   return (
     <Pressable
@@ -41,14 +46,14 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderWidth: 1,
+    borderWidth: DEFAULT_BORDER,
     borderRadius: radius.lg,
     alignItems: 'center',
     gap: 10,
   },
   selected: {
     borderColor: colors.primary,
-    borderWidth: 3,
+    borderWidth: SELECTED_BORDER,
     shadowColor: colors.primary,
     elevation: 6,
   },
